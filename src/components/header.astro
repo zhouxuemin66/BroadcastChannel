@@ -102,7 +102,11 @@ const staticProxy = getEnv(import.meta.env, Astro, 'STATIC_PROXY') ?? '/static/'
 </div>
 
 {
- "ces"
+  channel?.descriptionHTML && channel?.descriptionHTML.length > 0 && (
+  <div class="text-box" id="site-intro">
+    <p>欢迎来到我的频道主页，这是一个固定的介绍内容。</p>
+  </div>
+  )
 }
 
 <style>

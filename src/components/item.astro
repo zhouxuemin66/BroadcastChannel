@@ -17,6 +17,19 @@ const COMMENTS = getEnv(import.meta.env, Astro, 'COMMENTS')
 
 const datetime = dayjs(post.datetime).tz(timezone)
 const timeago = datetime.isBefore(dayjs().subtract(1, 'w')) ? datetime.format('HH:mm · ll · ddd') : datetime.fromNow()
+
+// 清洗 HTML 内容
+function cleanContent(raw) {
+  return raw
+    // 移除网站网址段落
+    .replace(/网站网址：.*?<br\s*\/?>/gi, '')
+    // 移除包含频道、群聊、投稿、商务的整段内容
+    .replace(/<i[^>]*>\s*<b>📢<\/b>\s*<\/i>[\s\S]*?(频道|群聊|投稿|商务)[\s\S]*?<br\s*\/?><br\s*\/?>/gi, '')
+    // 移除 "via ..." 的尾部引用
+    .replace(/via\s*<a[^>]*>[^<]*<\/a>/gi, '')
+}
+
+const cleanedContent = cleanContent(post.content)
 ---
 
 <div class="item" style={{ 'view-transition-name': `post-${post.id}` }}>
@@ -28,7 +41,9 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w')) ? datetime.format('H
       </a>
     </div>
   </div>
-  {post.content.length > 0 && <div class={`text-box content`} set:html={post.content} />}
+
+  <div class="text-box content" set:html={cleanedContent} />
+
   {
     post.tags.length > 0 && (
       <div class="tag-box" style={post.content.length === 0 ? 'padding-top: 30px;' : ''}>
