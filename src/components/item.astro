@@ -21,12 +21,17 @@ const timeago = datetime.isBefore(dayjs().subtract(1, 'w')) ? datetime.format('H
 // 清洗 HTML 内容
 function cleanContent(raw) {
   return raw
-    // 移除网站网址段落
+    // 1. 移除网站网址段（可选）
     .replace(/网站网址：.*?<br\s*\/?>/gi, '')
-    // 移除包含频道、群聊、投稿、商务的整段内容
-    .replace(/<i[^>]*>\s*<b>📢<\/b>\s*<\/i>[\s\S]*?(频道|群聊|投稿|商务)[\s\S]*?<br\s*\/?><br\s*\/?>/gi, '')
-    // 移除 "via ..." 的尾部引用
-    .replace(/via\s*<a[^>]*>[^<]*<\/a>/gi, '')
+
+    // 2. 移除包含 投稿 / 频道 / 聊天 等 emoji 链接的段落
+    .replace(/(<i class="emoji">.*?<\/i>\s*<a .*?<\/a>\s*)+/gi, '')
+
+    // 3. 移除尾部的 "via <a href=...>..."
+    .replace(/via\s*<a[^>]*>[\s\S]*?<\/a>/gi, '')
+
+    // 4. 多余空行处理（可选）
+    .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, '<br>')
 }
 
 const cleanedContent = cleanContent(post.content)
