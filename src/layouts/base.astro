@@ -82,7 +82,8 @@ const navs = (getEnv(import.meta.env, Astro, 'NAVS') || '')
       }
     </style>
     <SEO
-      title="ChatGPT / AI新闻聚合" 
+      titleTemplate={`%s | ${channel?.title}`}
+      titleDefault={[channel?.title, seoParams.description].filter(Boolean).join(' - ')}
       twitter={{
         card: 'summary_large_image',
         creator: twitter ? `@${twitter}` : undefined,
