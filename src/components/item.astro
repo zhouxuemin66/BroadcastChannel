@@ -3,11 +3,15 @@ import '../assets/item.css'
 import 'prismjs/themes/prism.css'
 import dayjs from '../lib/dayjs'
 import { getEnv } from '../lib/env'
+// 引入中文语言包，确保 dayjs 支持中文
+import 'dayjs/locale/zh-cn' 
 
-const locale = getEnv(import.meta.env, Astro, 'LOCALE')
+// 获取 LOCALE 环境变量，如果未获取到则默认使用 'zh-cn'
+const locale = getEnv(import.meta.env, Astro, 'LOCALE') || 'zh-cn'; 
 const timezone = getEnv(import.meta.env, Astro, 'TIMEZONE')
 
-locale && dayjs.locale(locale)
+// 设置 dayjs 的语言环境
+dayjs.locale(locale)
 
 const { SITE_URL } = Astro.locals
 const { post, isItem } = Astro.props
