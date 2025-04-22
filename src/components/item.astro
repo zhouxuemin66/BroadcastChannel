@@ -33,6 +33,8 @@ function cleanContent(raw) {
     // 新增：移除 📢 频道 和 👥 群组 相关内容
     .replace(/<br\s*\/?>?<i class="emoji"><b>📢<\/b><\/i>\s*频道：<a[^>]*>.*?<\/a>/gi, '')
     .replace(/<br\s*\/?>?<i class="emoji"><b>👥<\/b><\/i>\s*群组：<a[^>]*>.*?<\/a>/gi, '')
+    .replace(/<br\s*\/?>?<i class="emoji"><b>⚠️<\/b><\/i>\s*版权：<a[^>]*>.*?<\/a>/gi, '')
+    .replace(/<br\s*\/?>?<i class="emoji"><b>🤖<\/b><\/i>\s*投稿：<a[^>]*>.*?<\/a>/gi, '')
 
     // 4. 多余空行处理（可选）
     .replace(/<br\s*\/?>\s*<br\s*\/?>/gi, '<br>')
